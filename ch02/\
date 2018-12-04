@@ -20,11 +20,13 @@ func main() {
 func StartJVM(cmd *Cmd) {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
 	fmt.Printf("classpath:%v class:%v args:%v\n", cp, cmd.class, cmd.args)
-	className := strings.Replace(cmd.class, ".", "/", -1)
-	classData, _, err := cp.ReadClass(className)
+	classname := strings.Replace(cmd.class, ".", "/", -1)
+	classData, _, err = cp.ReadClass(className)
 	if err != nil {
 		fmt.Printf("can't not find and load main class %s\n", cmd.class)
 	}
 
 	fmt.Printf("class data: %v\n", classData)
 }
+
+

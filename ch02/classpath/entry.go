@@ -13,6 +13,7 @@ type Entry interface {
 	String() string
 }
 
+//new different entry to load according to the path type(*, jar, zip, or others)
 func newEntry(path string) Entry {
 	if strings.Contains(path, pathListSeparator) {
 		return newCompositeEntry(path)
