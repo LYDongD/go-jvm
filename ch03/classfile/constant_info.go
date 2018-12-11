@@ -1,12 +1,12 @@
 package classfile
 
 const (
-	CONSTATN_Class              = 7
-	CONSTATN_Fieldref           = 9
-	CONSTATN_Methodref          = 10
-	CONSTATN_InterfaceMethodref = 11
-	CONSTATN_String             = 8
-	CONSTATN_Integer            = 3
+	CONSTANT_Class              = 7
+	CONSTANT_Fieldref           = 9
+	CONSTANT_Methodref          = 10
+	CONSTANT_InterfaceMethodref = 11
+	CONSTANT_String             = 8
+	CONSTANT_Integer            = 3
 	CONSTANT_Float              = 4
 	CONSTANT_Long               = 5
 	CONSTANT_Double             = 6

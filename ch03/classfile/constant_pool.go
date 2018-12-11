@@ -7,7 +7,7 @@ type ConstantInfo interface {
 }
 
 func readConstantPool(reader *ClassReader) ConstantPool {
-	cpCount := reader.readUint16()
+	cpCount := int(reader.readUint16())
 	cp := make([]ConstantInfo, cpCount)
 	//index begin from 1
 	for i := 1; i < cpCount; i++ {
@@ -64,7 +64,7 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	}
 }
 
-func (self ConstantPool) getConstantInfo(index uint16) ConstantInfo {
+	func (self ConstantPool) getConstantInfo(index uint16) ConstantInfo {
 	if cpInfo := self[index]; cpInfo != nil {
 		return cpInfo
 	}

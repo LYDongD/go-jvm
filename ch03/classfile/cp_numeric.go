@@ -27,7 +27,7 @@ type ConstantLongInfo struct {
 }
 
 func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
-	bytes := read.readUint64()
+	bytes := reader.readUint64()
 	self.val = int64(bytes)
 }
 

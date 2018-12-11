@@ -9,7 +9,7 @@ type ClassReader struct {
 }
 
 //read u1
-func (self *ClassReader) readUinit8() uint8 {
+func (self *ClassReader) readUint8() uint8 {
 	val := self.data[0]
 	self.data = self.data[1:]
 	return val
@@ -24,27 +24,27 @@ func (self *ClassReader) readUint16() uint16 {
 
 //read u4
 func (self *ClassReader) readUint32() uint32 {
-	val := binary.BigEndiam.Uint32
+	val := binary.BigEndian.Uint32(self.data)
 	self.data = self.data[4:]
 	return val
 }
 
 //read u8
-func (self *ClassReader) readUini64() uint64 {
-	val := binary.BigEndiam.Uint64
+func (self *ClassReader) readUint64() uint64 {
+	val := binary.BigEndian.Uint64(self.data)
 	self.data = self.data[8:]
 	return val
 }
 
 //read table
-func (self *ClassReader) readUinit16s() []uint16 {
+func (self *ClassReader) readUint16s() []uint16 {
 	//read size from the begin u2
-	n := self.readUinit16()
+	n := self.readUint16()
 	s := make([]uint16, n)
 	for i := range s {
 		s[i] = self.readUint16()
 	}
-	return
+	return s
 }
 
 //read bytes

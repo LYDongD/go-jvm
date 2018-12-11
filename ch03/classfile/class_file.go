@@ -3,7 +3,7 @@ package classfile
 import "fmt"
 
 type ClassFile struct {
-	magic        uinit32
+	magic        uint32
 	minorVersion uint16
 	majorVersion uint16
 	constantPool ConstantPool
@@ -28,7 +28,7 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 	}()
 
 	cr := &ClassReader{classData}
-	cf := &ClassFile{}
+	cf = &ClassFile{}
 	cf.read(cr)
 
 	return
@@ -44,15 +44,15 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.interfaces = reader.readUint16s()
 	self.fields = readMembers(reader, self.constantPool)
 	self.methods = readMembers(reader, self.constantPool)
-	self.attributes = readAttributes(read, self.constantPool)
+	self.attributes = readAttributes(reader, self.constantPool)
 }
 
 //getter
 func (self *ClassFile) MajorVersion() uint16 {
-	return self.MajorVersion
+	return self.majorVersion
 }
 func (self *ClassFile) MinorVersion() uint16 {
-	return self.MinorVersion
+	return self.minorVersion
 }
 func (self *ClassFile) ConstantPool() ConstantPool {
 	return self.constantPool
@@ -61,7 +61,7 @@ func (self *ClassFile) AccessFlags() uint16 {
 	return self.accessFlags
 }
 func (self *ClassFile) Fields() []*MemberInfo {
-	return self.Fields
+	return self.fields
 }
 func (self *ClassFile) Methods() []*MemberInfo {
 	return self.methods
@@ -80,7 +80,7 @@ func (self *ClassFile) SuperClassName() string {
 
 func (self *ClassFile) InterfaceNames() []string {
 	interfaceNames := make([]string, len(self.interfaces))
-	for i, cpIndex := range interfaceNames {
+	for i, cpIndex := range self.interfaces {
 		interfaceNames[i] = self.constantPool.getClassName(cpIndex)
 	}
 
