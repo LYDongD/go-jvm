@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-jvm/ch03/classpath"
-	"go-jvm/ch03/classfile"
+	"go-jvm/ch04/classfile"
+	"go-jvm/ch04/classpath"
 	"strings"
 )
 
@@ -22,7 +22,7 @@ func StartJVM(cmd *Cmd) {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
 	fmt.Printf("classpath:%v class:%v args:%v\n", cp, cmd.class, cmd.args)
 	className := strings.Replace(cmd.class, ".", "/", -1)
-	
+
 	cf := loadClass(className, cp)
 	fmt.Println(cmd.class)
 	printClassInfo(cf)
