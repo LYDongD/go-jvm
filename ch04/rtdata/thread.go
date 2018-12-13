@@ -24,9 +24,9 @@ func (self *Thread) PushFrame(frame *Frame) {
 }
 
 func (self *Thread) PopFrame() *Frame {
-	self.stack.pop()
+	return self.stack.pop()
 }
 
 func (self *Thread) CurrentFrame() *Frame {
-
+	return self.stack.top()
 }

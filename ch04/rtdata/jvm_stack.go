@@ -27,7 +27,7 @@ func (self *Stack) push(frame *Frame) {
 	self.size++
 }
 
-func (self *Stack) pop() {
+func (self *Stack) pop() *Frame{
 	if self._top == nil {
 		panic("jvm stack is empty")
 	}
@@ -44,6 +44,6 @@ func (self *Stack) top() *Frame {
 		panic("jvm is empty!")
 	}
 
-	return self.top
+	return self._top
 }
 

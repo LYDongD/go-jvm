@@ -6,7 +6,7 @@ import (
 
 type LocalVars []Slot
 
-func newLocalVars(maxLocals int) LocalVars {
+func newLocalVars(maxLocals uint) LocalVars {
 	if maxLocals > 0 {
 		return make([]Slot, maxLocals)
 	}
@@ -14,12 +14,12 @@ func newLocalVars(maxLocals int) LocalVars {
 	return nil
 }
 
-func (self LocalVars) SetInt(index uint, val int) {
+func (self LocalVars) SetInt(index uint, val int32) {
 	self[index].num = val
 }
 
-func (self LocalVars) GetInt(index uint) int {
-	return self[idnex].num
+func (self LocalVars) GetInt(index uint) int32 {
+	return self[index].num
 }
 
 func (self LocalVars) SetFloat(index uint, val float32) {
@@ -27,8 +27,8 @@ func (self LocalVars) SetFloat(index uint, val float32) {
 	self[index].num = int32(bits)
 }
 
-func (self LocalVars) GetFlat(index uint) float32 {
-	bits := uint32(self[index].nums)
+func (self LocalVars) GetFloat(index uint) float32 {
+	bits := uint32(self[index].num)
 	return math.Float32frombits(bits)
 }
 
@@ -54,7 +54,7 @@ func (self LocalVars) GetDouble(index uint) float64 {
 }
 
 func (self LocalVars) SetRef(index uint, ref *Object) {
-	self[idnex].ref = ref
+	self[index].ref = ref
 }
 
 func (self LocalVars) GetRef(index uint) *Object {
