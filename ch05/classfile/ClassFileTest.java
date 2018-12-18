@@ -11,6 +11,6 @@ public class ClassFileTest {
 	public static final double E = 2.71828;
 
 	public static void main( String[] args) throws RuntimeException {
-		System.out.println("Hello,World!");
+		System. out. println(" Hello, World!");
 	}
 }
