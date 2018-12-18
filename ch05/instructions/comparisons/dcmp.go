@@ -5,28 +5,28 @@ import (
 	"go-jvm/ch05/rtdata"
 )
 
-type FCOMPG struct {
+type DCOMPG struct {
 	base.NoOperandsInstruction
 }
 
-func (self *FCOMPG) Execute(frame *rtdata.Frame) {
-	_fcmp(frame, true)
+func (self *DCOMPG) Execute(frame *rtdata.Frame) {
+	_dcmp(frame, true)
 }
 
 
-type FCOMPL struct {
+type DCOMPL struct {
 	base.NoOperandsInstruction
 }
 
 
-func (self *FCOMPL) Execute(frame *rtdata.Frame) {
-	_fcmp(frame, false)
+func (self *DCOMPL) Execute(frame *rtdata.Frame) {
+	_dcmp(frame, false)
 }
 
-func _fcmp(frame *rtdata.Frame, gFlag bool) {
+func _dcmp(frame *rtdata.Frame, gFlag bool) {
 	stack := frame.OperandStack()
-	v2 := stack.PopFloat()
-	v1 := stack.PopFloat()
+	v2 := stack.PopDouble()
+	v1 := stack.PopDouble()
 	if v1 > v2 {
 		stack.PushInt(1)
 	}else if v1 == v2 {
