@@ -13,3 +13,8 @@ type FCOMPG struct {
 type FCOMPL struct {
 	base.NoOperandsInstruction
 }
+
+func _fcmp(frame *rtdata.Frame gFlag bool) {
+	stack := frame.OperandStack()
+	v
+}
