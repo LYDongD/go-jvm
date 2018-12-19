@@ -26,6 +26,12 @@ func (self *Frame) OperandStack() *OperandStack {
 	return self.operandStack
 }
 
+//todo
+func (self *Frame) Thread() *Thread {
+	return nil
+}
+
+
 
 
 
