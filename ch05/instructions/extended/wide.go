@@ -34,7 +34,3 @@ func (self *WIDE) FetchOperands(reader *base.BytecodeReader) {
 func (self *WIDE) Execute(frame *rtdata.Frame) {
 	self.modificationInstruction.Execute(frame)
 }
-
-func main() {
-	fmt.Println("vim-go")
-}

@@ -40,3 +40,14 @@ func (self *MemberInfo) Descriptor() string {
 func (self *MemberInfo) Name() string {
 	return self.cp.getUtf8(self.nameIndex)
 }
+
+func (self *MemberInfo) CodeAttribute() *CodeAttribute {
+	for _, attrInfo := range self.attributes {
+		switch attrInfo.(type) {
+		case *CodeAttribute:
+			return attrInfo.(*CodeAttribute)
+		}
+	}
+
+	return nil
+}

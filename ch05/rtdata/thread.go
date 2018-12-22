@@ -1,7 +1,7 @@
 package rtdata
 
 type Thread struct {
-	pc int
+	pc    int
 	stack *Stack
 }
 
@@ -11,7 +11,7 @@ func NewThread() *Thread {
 	}
 }
 
-func (self *Thread) PC() int{
+func (self *Thread) PC() int {
 	return self.pc
 }
 
@@ -34,4 +34,8 @@ func (self *Thread) PopFrame() *Frame {
 
 func (self *Thread) CurrentFrame() *Frame {
 	return self.stack.top()
+}
+
+func (self *Thread) NewFrame(maxLocals, maxStack uint) *Frame {
+	return newFrame(self, maxLocals, maxStack)
 }
