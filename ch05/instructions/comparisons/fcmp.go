@@ -13,11 +13,9 @@ func (self *FCOMPG) Execute(frame *rtdata.Frame) {
 	_fcmp(frame, true)
 }
 
-
 type FCOMPL struct {
 	base.NoOperandsInstruction
 }
-
 
 func (self *FCOMPL) Execute(frame *rtdata.Frame) {
 	_fcmp(frame, false)
@@ -29,13 +27,13 @@ func _fcmp(frame *rtdata.Frame, gFlag bool) {
 	v1 := stack.PopFloat()
 	if v1 > v2 {
 		stack.PushInt(1)
-	}else if v1 == v2 {
+	} else if v1 == v2 {
 		stack.PushInt(0)
-	}else if v1 < v2 {
+	} else if v1 < v2 {
 		stack.PushInt(-1)
-	}else if gFlag {
+	} else if gFlag {
 		stack.PushInt(1)
-	}else {
+	} else {
 		stack.PushInt(-1)
 	}
 }
