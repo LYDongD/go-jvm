@@ -31,7 +31,7 @@ func _fcmp(frame *rtdata.Frame, gFlag bool) {
 		stack.PushInt(0)
 	} else if v1 < v2 {
 		stack.PushInt(-1)
-	} else if gFlag {
+	} else if gFlag { //if v1 or v2 is NaN
 		stack.PushInt(1)
 	} else {
 		stack.PushInt(-1)

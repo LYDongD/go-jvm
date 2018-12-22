@@ -19,6 +19,11 @@ func (self *Thread) SetPC(pc int) {
 	self.pc = pc
 }
 
+//TODO
+func (self *Thread) SetNextPC(pc int) {
+
+}
+
 func (self *Thread) PushFrame(frame *Frame) {
 	self.stack.push(frame)
 }
