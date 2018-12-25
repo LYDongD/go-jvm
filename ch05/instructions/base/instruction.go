@@ -1,23 +1,20 @@
 package base
 
-import (
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/rtdata"
 
-type Instructions interface {
-	//fetch operands from byte code using byte reader
+type Instruction interface {
 	FetchOperands(reader *BytecodeReader)
 	Execute(frame *rtdata.Frame)
 }
 
 type NoOperandsInstruction struct {
+	// empty
 }
 
 func (self *NoOperandsInstruction) FetchOperands(reader *BytecodeReader) {
-	//nothing todo
+	// nothing to do
 }
 
-//goto instruction
 type BranchInstruction struct {
 	Offset int
 }
@@ -26,22 +23,18 @@ func (self *BranchInstruction) FetchOperands(reader *BytecodeReader) {
 	self.Offset = int(reader.ReadInt16())
 }
 
-//local variables index instruction
 type Index8Instruction struct {
 	Index uint
 }
 
 func (self *Index8Instruction) FetchOperands(reader *BytecodeReader) {
-	self.Index = uint(reader.ReadInt8())
+	self.Index = uint(reader.ReadUint8())
 }
 
-//constant pool index struction
-type index16Instruction struct {
+type Index16Instruction struct {
 	Index uint
 }
 
-func (self *index16Instruction) FetchOperands(reader *BytecodeReader) {
+func (self *Index16Instruction) FetchOperands(reader *BytecodeReader) {
 	self.Index = uint(reader.ReadUint16())
 }
-
-

@@ -1,17 +1,10 @@
 package extended
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type IFNULL struct {
-	base.BranchInstruction
-}
-
-type IFNONNULL struct {
-	base.BranchInstruction
-}
+// Branch if reference is null
+type IFNULL struct{ base.BranchInstruction }
 
 func (self *IFNULL) Execute(frame *rtdata.Frame) {
 	ref := frame.OperandStack().PopRef()
@@ -19,6 +12,9 @@ func (self *IFNULL) Execute(frame *rtdata.Frame) {
 		base.Branch(frame, self.Offset)
 	}
 }
+
+// Branch if reference not null
+type IFNONNULL struct{ base.BranchInstruction }
 
 func (self *IFNONNULL) Execute(frame *rtdata.Frame) {
 	ref := frame.OperandStack().PopRef()

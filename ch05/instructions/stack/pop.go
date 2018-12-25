@@ -1,22 +1,33 @@
 package stack
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type POP struct {
-	base.NoOperandsInstruction
-}
+// Pop the top operand stack value
+type POP struct{ base.NoOperandsInstruction }
 
-type POP2 struct {
-	base.NoOperandsInstruction
-}
-
+/*
+bottom -> top
+[...][c][b][a]
+            |
+            V
+[...][c][b]
+*/
 func (self *POP) Execute(frame *rtdata.Frame) {
-	frame.OperandStack().PopSlot()
+	stack := frame.OperandStack()
+	stack.PopSlot()
 }
 
+// Pop the top one or two operand stack values
+type POP2 struct{ base.NoOperandsInstruction }
+
+/*
+bottom -> top
+[...][c][b][a]
+         |  |
+         V  V
+[...][c]
+*/
 func (self *POP2) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	stack.PopSlot()

@@ -1,23 +1,18 @@
 package comparisons
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type FCOMPG struct {
-	base.NoOperandsInstruction
-}
+// Compare float
+type FCMPG struct{ base.NoOperandsInstruction }
 
-func (self *FCOMPG) Execute(frame *rtdata.Frame) {
+func (self *FCMPG) Execute(frame *rtdata.Frame) {
 	_fcmp(frame, true)
 }
 
-type FCOMPL struct {
-	base.NoOperandsInstruction
-}
+type FCMPL struct{ base.NoOperandsInstruction }
 
-func (self *FCOMPL) Execute(frame *rtdata.Frame) {
+func (self *FCMPL) Execute(frame *rtdata.Frame) {
 	_fcmp(frame, false)
 }
 
@@ -31,7 +26,7 @@ func _fcmp(frame *rtdata.Frame, gFlag bool) {
 		stack.PushInt(0)
 	} else if v1 < v2 {
 		stack.PushInt(-1)
-	} else if gFlag { //if v1 or v2 is NaN
+	} else if gFlag {
 		stack.PushInt(1)
 	} else {
 		stack.PushInt(-1)

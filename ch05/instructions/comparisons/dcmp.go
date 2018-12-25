@@ -1,25 +1,18 @@
 package comparisons
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type DCOMPG struct {
-	base.NoOperandsInstruction
-}
+// Compare double
+type DCMPG struct{ base.NoOperandsInstruction }
 
-func (self *DCOMPG) Execute(frame *rtdata.Frame) {
+func (self *DCMPG) Execute(frame *rtdata.Frame) {
 	_dcmp(frame, true)
 }
 
+type DCMPL struct{ base.NoOperandsInstruction }
 
-type DCOMPL struct {
-	base.NoOperandsInstruction
-}
-
-
-func (self *DCOMPL) Execute(frame *rtdata.Frame) {
+func (self *DCMPL) Execute(frame *rtdata.Frame) {
 	_dcmp(frame, false)
 }
 
@@ -29,13 +22,13 @@ func _dcmp(frame *rtdata.Frame, gFlag bool) {
 	v1 := stack.PopDouble()
 	if v1 > v2 {
 		stack.PushInt(1)
-	}else if v1 == v2 {
+	} else if v1 == v2 {
 		stack.PushInt(0)
-	}else if v1 < v2 {
+	} else if v1 < v2 {
 		stack.PushInt(-1)
-	}else if gFlag {
+	} else if gFlag {
 		stack.PushInt(1)
-	}else {
+	} else {
 		stack.PushInt(-1)
 	}
 }

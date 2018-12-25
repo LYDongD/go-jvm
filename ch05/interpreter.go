@@ -2,18 +2,21 @@ package main
 
 import (
 	"fmt"
-	"jvmgo/ch05/classfile"
-	"jvmgo/ch05/instructions"
-	"jvmgo/ch05/instructions/base"
-	"jvmgo/ch05/rtdata"
+	"gojvm/ch05/classfile"
+	"gojvm/ch05/instructions"
+	"gojvm/ch05/instructions/base"
+	"gojvm/ch05/rtdata"
 )
 
-func interpret(methodInfo *classfile.Methodinfo) {
+
+func interpret(methodInfo *classfile.MemberInfo) {
+	//get bytecode and operate env
 	codeAtrr := methodInfo.CodeAttribute()
 	maxLocals := codeAtrr.MaxLocals()
 	maxStack := codeAtrr.MaxStack()
 	bytecode := codeAtrr.Code()
 
+	//thread -> frame -> execute bytecode in frame
 	thread := rtdata.NewThread()
 	frame := thread.NewFrame(maxLocals, maxStack)
 	thread.PushFrame(frame)
@@ -30,7 +33,7 @@ func catchErr(frame *rtdata.Frame) {
 	}
 }
 
-func loop(thread *Thread, bytecode []byte) {
+func loop(thread *rtdata.Thread, bytecode []byte) {
 	frame := thread.PopFrame()
 	reader := &base.BytecodeReader{}
 	for {
@@ -38,13 +41,15 @@ func loop(thread *Thread, bytecode []byte) {
 		thread.SetPC(pc)
 		//decode
 		reader.Reset(bytecode, pc)
-		opcode := reader.readUint8()
+		opcode := reader.ReadUint8()
+
+		//bycode(opcode) -> instructions
 		inst := instructions.NewInstruction(opcode)
 		inst.FetchOperands(reader)
 		frame.SetNextPC(reader.PC())
 
 		//execute
 		fmt.Printf("pc:%2d inst:%T %v\n", pc, inst, inst)
-		inst.Execute()
+		inst.Execute(frame)
 	}
 }

@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	"go-jvm/ch05/rtdata"
+	"strings"
+	"gojvm/ch05/classfile"
+	"gojvm/ch05/classpath"
 )
 
 func main() {
@@ -17,43 +19,41 @@ func main() {
 }
 
 func StartJVM(cmd *Cmd) {
-	frame := rtdata.NewFrame(100, 100)
-	testLocalVars(frame.LocalVars())
-	testOperandStack(frame.OperandStack())
+	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
+	className := strings.Replace(cmd.class, ".", "/", -1)
+	cf := loadClass(className, cp)
+	mainMethod := getMainMethod(cf)
+	fmt.Printf(className)
+	if mainMethod != nil {
+		interpret(mainMethod)
+	}else {
+		fmt.Printf("main method not found in class :%s\n", className)
+	}
 }
 
-func testLocalVars(vars rtdata.LocalVars) {
-	vars.SetInt(0, 100)
-	vars.SetInt(1, -100)
-	vars.SetLong(2, 2997924580)
-	vars.SetLong(4, -2997924580)
-	vars.SetFloat(6, 3.1415926)
-	vars.SetDouble(7, 2.71828182845)
-	vars.SetRef(9, nil)
+func loadClass(className string, cp *classpath.Classpath) *classfile.ClassFile {
+	classData, _, err := cp.ReadClass(className)
+	if err != nil {
+		panic(err)
+	}
 
-	println(vars.GetInt(0))
-	println(vars.GetInt(1))
-	println(vars.GetLong(2))
-	println(vars.GetLong(4))
-	println(vars.GetFloat(6))
-	println(vars.GetDouble(7))
-	println(vars.GetRef(9))
+	cf, err := classfile.Parse(classData)
+	if err != nil {
+		panic(err)
+	}
+
+	return cf
 }
 
-func testOperandStack(ops *rtdata.OperandStack) {
-	ops.PushInt(100)
-	ops.PushInt(-100)
-	ops.PushLong(2997924580)
-	ops.PushLong(-2997924580)
-	ops.PushFloat(3.1415926)
-	ops.PushDouble(2.71828182845)
-	ops.PushRef(nil)
+func getMainMethod(cf *classfile.ClassFile) *classfile.MemberInfo {
+	for _, m := range cf.Methods() {
+		fmt.Println(m.Name(), m.Descriptor())
+		fmt.Println()
+		if m.Name() == "main" && m.Descriptor() == "([Ljava/lang/String;)V" {
+			return m
+		}
+	}
 
-	println(ops.PopRef())
-	println(ops.PopDouble())
-	println(ops.PopFloat())
-	println(ops.PopLong())
-	println(ops.PopLong())
-	println(ops.PopInt())
-	println(ops.PopInt())
+	return nil
 }
+

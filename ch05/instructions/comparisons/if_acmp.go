@@ -1,34 +1,28 @@
 package comparisons
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type IF_ACMEQ struct {
-	base.BranchInstruction
-}
+// Branch if reference comparison succeeds
+type IF_ACMPEQ struct{ base.BranchInstruction }
 
-func (self *IF_ACMEQ) Execute(frame *rtdata.Frame) {
-	stack := frame.OperandStack()
-	ref2 := stack.PopRef()
-	ref1 := stack.PopRef()
-
-	if ref1 == ref2 {
+func (self *IF_ACMPEQ) Execute(frame *rtdata.Frame) {
+	if _acmp(frame) {
 		base.Branch(frame, self.Offset)
 	}
 }
 
-type IF_ACMNE struct {
-	base.BranchInstruction
+type IF_ACMPNE struct{ base.BranchInstruction }
+
+func (self *IF_ACMPNE) Execute(frame *rtdata.Frame) {
+	if !_acmp(frame) {
+		base.Branch(frame, self.Offset)
+	}
 }
 
-func (self *IF_ACMNE) Execute(frame *rtdata.Frame) {
+func _acmp(frame *rtdata.Frame) bool {
 	stack := frame.OperandStack()
 	ref2 := stack.PopRef()
 	ref1 := stack.PopRef()
-
-	if ref1 != ref2 {
-		base.Branch(frame, self.Offset)
-	}
+	return ref1 == ref2 // todo
 }

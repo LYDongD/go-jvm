@@ -1,66 +1,57 @@
 package math
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-	"math"
-)
+import "math"
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-
-type FREM struct {
-	base.NoOperandsInstruction
-}
-
-func (self *FREM) Execute(frame *rtdata.Frame) {
-	stack := frame.OperandStack()
-	v2 := stack.PopFloat()
-	v1 := stack.PopFloat()
-	v := float32(math.Mod(float64(v1), float64(v2)))
-	stack.PushFloat(v)
-}
-
-type DREM struct {
-	base.NoOperandsInstruction
-}
+// Remainder double
+type DREM struct{ base.NoOperandsInstruction }
 
 func (self *DREM) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopDouble()
 	v1 := stack.PopDouble()
-	v := math.Mod(v1, v2)
-	stack.PushDouble(v)
+	result := math.Mod(v1, v2) // todo
+	stack.PushDouble(result)
 }
 
+// Remainder float
+type FREM struct{ base.NoOperandsInstruction }
 
-type IREM struct {
-	base.NoOperandsInstruction
+func (self *FREM) Execute(frame *rtdata.Frame) {
+	stack := frame.OperandStack()
+	v2 := stack.PopFloat()
+	v1 := stack.PopFloat()
+	result := float32(math.Mod(float64(v1), float64(v2))) // todo
+	stack.PushFloat(result)
 }
+
+// Remainder int
+type IREM struct{ base.NoOperandsInstruction }
 
 func (self *IREM) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
-
 	if v2 == 0 {
-		panic("java.lang.ArithematicException: / by zero")
+		panic("java.lang.ArithmeticException: / by zero")
 	}
-	v := v1 % v2
-	stack.PushInt(v)
+
+	result := v1 % v2
+	stack.PushInt(result)
 }
 
-type LREM struct {
-	base.NoOperandsInstruction
-}
+// Remainder long
+type LREM struct{ base.NoOperandsInstruction }
 
 func (self *LREM) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopLong()
 	v1 := stack.PopLong()
-
 	if v2 == 0 {
-		panic("java.lang.ArithematicException: / by zero")
+		panic("java.lang.ArithmeticException: / by zero")
 	}
-	v := v1 % v2
-	stack.PushLong(v)
-}
 
+	result := v1 % v2
+	stack.PushLong(result)
+}

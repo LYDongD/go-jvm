@@ -1,19 +1,34 @@
 package control
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
+/*
+tableswitch
+<0-3 byte pad>
+defaultbyte1
+defaultbyte2
+defaultbyte3
+defaultbyte4
+lowbyte1
+lowbyte2
+lowbyte3
+lowbyte4
+highbyte1
+highbyte2
+highbyte3
+highbyte4
+jump offsets...
+*/
+// Access jump table by index and jump
 type TABLE_SWITCH struct {
 	defaultOffset int32
-	low   		  int32
-	high	  	  int32
-	jumpOffsets	  []int32 //index table
+	low           int32
+	high          int32
+	jumpOffsets   []int32
 }
 
 func (self *TABLE_SWITCH) FetchOperands(reader *base.BytecodeReader) {
-	//make sure default offset address be the 4x, leave 1-3 padding
 	reader.SkipPadding()
 	self.defaultOffset = reader.ReadInt32()
 	self.low = reader.ReadInt32()
@@ -24,12 +39,13 @@ func (self *TABLE_SWITCH) FetchOperands(reader *base.BytecodeReader) {
 
 func (self *TABLE_SWITCH) Execute(frame *rtdata.Frame) {
 	index := frame.OperandStack().PopInt()
+
 	var offset int
-	if index >= low && index  <= hight {
-		offset = self.jumpOffsets[index - low]
-	}else {
-		offset = self.defaultOffset
+	if index >= self.low && index <= self.high {
+		offset = int(self.jumpOffsets[index-self.low])
+	} else {
+		offset = int(self.defaultOffset)
 	}
+
 	base.Branch(frame, offset)
 }
-

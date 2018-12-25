@@ -1,29 +1,23 @@
 package math
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type ISHL struct {
-	base.NoOperandsInstruction
-}
+// Shift left int
+type ISHL struct{ base.NoOperandsInstruction }
 
 func (self *ISHL) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopInt()
-	//取低5位(32个数)即可表示可移动的最大位数
 	s := uint32(v2) & 0x1f
 	result := v1 << s
 	stack.PushInt(result)
 }
 
-type ISHR struct {
-	base.NoOperandsInstruction
-}
+// Arithmetic shift right int
+type ISHR struct{ base.NoOperandsInstruction }
 
-//算术右移，高位补符号位，采用golang默认的位移运算符
 func (self *ISHR) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
@@ -33,10 +27,8 @@ func (self *ISHR) Execute(frame *rtdata.Frame) {
 	stack.PushInt(result)
 }
 
-//无符号(逻辑)右移，高位补0
-type IUSHR struct {
-	base.NoOperandsInstruction
-}
+// Logical shift right int
+type IUSHR struct{ base.NoOperandsInstruction }
 
 func (self *IUSHR) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
@@ -47,38 +39,32 @@ func (self *IUSHR) Execute(frame *rtdata.Frame) {
 	stack.PushInt(result)
 }
 
-type LSHL struct {
-	base.NoOperandsInstruction
-}
+// Shift left long
+type LSHL struct{ base.NoOperandsInstruction }
 
 func (self *LSHL) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()
-	//取低6位(64个数)即可表示可移动的最大位数
 	s := uint32(v2) & 0x3f
 	result := v1 << s
 	stack.PushLong(result)
 }
 
-type LSHR struct {
-	base.NoOperandsInstruction
-}
+// Arithmetic shift right long
+type LSHR struct{ base.NoOperandsInstruction }
 
 func (self *LSHR) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
 	v2 := stack.PopInt()
 	v1 := stack.PopLong()
-	//取低6位(64个数)即可表示可移动的最大位数
 	s := uint32(v2) & 0x3f
 	result := v1 >> s
 	stack.PushLong(result)
 }
 
-
-type LUSHR struct {
-	base.NoOperandsInstruction
-}
+// Logical shift right long
+type LUSHR struct{ base.NoOperandsInstruction }
 
 func (self *LUSHR) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()

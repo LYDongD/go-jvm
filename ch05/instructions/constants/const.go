@@ -1,8 +1,8 @@
 package constants
 
 import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
+	"gojvm/ch05/instructions/base"
+	"gojvm/ch05/rtdata"
 )
 
 type ACONST_NULL struct {

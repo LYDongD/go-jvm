@@ -1,13 +1,10 @@
 package control
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type GOTO struct {
-	base.BranchInstruction
-}
+// Branch always
+type GOTO struct{ base.BranchInstruction }
 
 func (self *GOTO) Execute(frame *rtdata.Frame) {
 	base.Branch(frame, self.Offset)

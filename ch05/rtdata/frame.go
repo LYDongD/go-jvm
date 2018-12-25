@@ -33,10 +33,10 @@ func (self *Frame) Thread() *Thread {
 	return self.thread
 }
 
-func (self *Frame) setNextPC(pc int) {
-	self.pc = pc
+func (self *Frame) SetNextPC(pc int) {
+	self.nextPc = pc
 }
 
 func (self *Frame) NextPC() int {
-	return self.pc
+	return self.nextPc
 }

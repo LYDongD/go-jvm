@@ -1,8 +1,8 @@
 package constants
 
 import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
+	"gojvm/ch05/instructions/base"
+	"gojvm/ch05/rtdata"
 )
 
 type BIPUSH struct {
@@ -21,3 +21,10 @@ func (self *BIPUSH) Execute(frame *rtdata.Frame) {
 	frame.OperandStack().PushInt(int32(self.val))
 }
 
+func (self *SIPUSH) FetchOperands(reader *base.BytecodeReader) {
+	self.val = reader.ReadInt16()
+}
+
+func (self *SIPUSH) Execute(frame *rtdata.Frame) {
+	frame.OperandStack().PushInt(int32(self.val))
+}

@@ -1,13 +1,10 @@
 package conversions
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
-type D2F struct {
-	base.NoOperandsInstruction
-}
+// Convert double to float
+type D2F struct{ base.NoOperandsInstruction }
 
 func (self *D2F) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
@@ -16,9 +13,8 @@ func (self *D2F) Execute(frame *rtdata.Frame) {
 	stack.PushFloat(f)
 }
 
-type D2I struct {
-	base.NoOperandsInstruction
-}
+// Convert double to int
+type D2I struct{ base.NoOperandsInstruction }
 
 func (self *D2I) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()
@@ -27,9 +23,8 @@ func (self *D2I) Execute(frame *rtdata.Frame) {
 	stack.PushInt(i)
 }
 
-type D2L struct {
-	base.NoOperandsInstruction
-}
+// Convert double to long
+type D2L struct{ base.NoOperandsInstruction }
 
 func (self *D2L) Execute(frame *rtdata.Frame) {
 	stack := frame.OperandStack()

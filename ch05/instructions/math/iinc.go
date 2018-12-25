@@ -1,10 +1,9 @@
 package math
 
-import (
-	"go-jvm/ch05/instructions/base"
-	"go-jvm/ch05/rtdata"
-)
+import "gojvm/ch05/instructions/base"
+import "gojvm/ch05/rtdata"
 
+// Increment local variable by constant
 type IINC struct {
 	Index uint
 	Const int32
@@ -21,4 +20,3 @@ func (self *IINC) Execute(frame *rtdata.Frame) {
 	val += self.Const
 	localVars.SetInt(self.Index, val)
 }
-
