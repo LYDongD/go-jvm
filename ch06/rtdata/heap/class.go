@@ -13,9 +13,9 @@ type Class struct {
 	loader *ClassLoader
 	superClass *Class
 	interfaces []*Class
-	instanceSlotCount uint
-	staticSlotCount uint
-	staticVars *Slots
+	instanceSlotCount uint //实例变量占用空间
+	staticSlotCount uint //类变量占用空间
+	staticVars *Slots //静态变量表
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
