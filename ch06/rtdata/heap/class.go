@@ -1,6 +1,9 @@
 package heap
 
-import "gojvm/ch06/classfile"
+import (
+	"gojvm/ch06/classfile"
+	"strings"
+)
 
 type Class struct {
 	accessFlags uint16
@@ -64,6 +67,17 @@ func (self *Class) IsAnnotation() bool {
 	return 0 != self.accessFlags & ACC_ANNOTATION
 }
 
+
+func (self *Class) isAccessibleTo(other *Class) bool {
+	return self.isPublic() || self.getPackageName() == other.getPaclageName()
+}
+
+func (self *Class) getPackageName() string {
+	if i := strings.Index(self.name, "/"); i > 0 {
+		return self.name[:i]
+	}
+	return ""
+}
 
 
 
