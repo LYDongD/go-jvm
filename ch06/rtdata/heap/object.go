@@ -1,5 +1,6 @@
 package heap
 
 type Object struct {
-	//todo
+	class *Class
+	fields Slots
 }
