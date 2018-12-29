@@ -69,7 +69,7 @@ func (self *Class) IsAnnotation() bool {
 
 
 func (self *Class) isAccessibleTo(other *Class) bool {
-	return self.isPublic() || self.getPackageName() == other.getPaclageName()
+	return self.isPublic() || self.getPackageName() == other.getPackageName()
 }
 
 func (self *Class) getPackageName() string {
