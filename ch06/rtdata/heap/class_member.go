@@ -1,6 +1,9 @@
 package heap
 
-import "gojvm/ch06/classfile"
+import (
+	"gojvm/ch06/classfile"
+	"strings"
+)
 
 /*
  * 	Field和Method成员的父类
@@ -23,5 +26,24 @@ func (self *ClassMember) Descriptor() string {
 	return self.descriptor
 }
 
+
+
+func (self *ClassMember) isAccessibleTo(d *Class) bool {
+	if self.IsPublic() {
+		return true
+	}
+
+	c := self.class
+	if self.IsProtected() {
+		return d == c || d.isSuperClassOf(c) ||
+			c.getPackageName() == d.getPackageName()
+	}
+
+	if !self.isPrivate() {
+		return c.getPackageName() == d.getPackageName()
+	}
+
+	return d == c
+}
 
 
