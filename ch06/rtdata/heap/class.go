@@ -15,7 +15,7 @@ type Class struct {
 	interfaces []*Class
 	instanceSlotCount uint //实例变量占用空间
 	staticSlotCount uint //类变量占用空间
-	staticVars *Slots //静态变量表
+	staticVars Slots //静态变量表
 }
 
 func newClass(cf *classfile.ClassFile) *Class {

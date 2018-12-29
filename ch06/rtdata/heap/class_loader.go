@@ -146,7 +146,7 @@ func calcStaticFieldSlotIds(class *Class) {
 
 //给静态成员变量分配空间并初始化
 func allocAndInitStaticVars(class *Class) {
-	class.staticVars := newSlots(class.staticSlotCount)
+	class.staticVars = newSlots(class.staticSlotCount)
 	for _, field := range class.fields {
 		if field.IsStatic() && field.IsFinal() {
 			initStaticFinalVar(class, field)
@@ -157,7 +157,7 @@ func allocAndInitStaticVars(class *Class) {
 func initStaticFinalVar(class *Class, field *Field) {
 	vars := class.staticVars
 	cp := class.constantPool
-	cpIndex := field.constantValueIndex
+	cpIndex := field.constValueIndex
 	slotId := field.SlotId()
 	if cpIndex > 0 {
 		switch field.Descriptor() {
