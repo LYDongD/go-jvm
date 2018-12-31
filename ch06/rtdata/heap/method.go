@@ -1,6 +1,8 @@
 package heap
 
-import "gojvm/ch06/classfile"
+import (
+	"gojvm/ch06/classfile"
+)
 
 type Method struct {
 	ClassMember
@@ -25,7 +27,19 @@ func newMethods(class *Class, cfMethods []*classfile.MemberInfo) []*Method {
 func (self *Method) copyAttributes(cfMethod *classfile.MemberInfo) {
 	if codeAtrr := cfMethod.CodeAttribute(); codeAtrr != nil {
 		self.maxLocals = codeAtrr.MaxLocals()
-		self.maxLocals = codeAtrr.MaxStack()
+		self.maxStack = codeAtrr.MaxStack()
 		self.code = codeAtrr.Code()
 	}
+}
+
+func (self *Method) MaxStack() uint {
+	return self.maxStack
+}
+
+func (self *Method) MaxLocals() uint {
+	return self.maxLocals
+}
+
+func (self *Method) Code() []byte {
+	return self.code
 }

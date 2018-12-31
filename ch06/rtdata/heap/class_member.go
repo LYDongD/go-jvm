@@ -73,3 +73,4 @@ func (self *ClassMember) isAccessibleTo(d *Class) bool {
 }
 
 
+

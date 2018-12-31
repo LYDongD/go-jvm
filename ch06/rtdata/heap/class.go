@@ -21,6 +21,14 @@ type Class struct {
 	staticVars Slots //静态变量表
 }
 
+func (self *Class) ConstantPool() *ConstantPool {
+	return self.constantPool
+}
+
+func (self *Class) StaticVars() Slots {
+	return self.staticVars
+}
+
 func newClass(cf *classfile.ClassFile) *Class {
 	class := &Class{}
 	class.accessFlags = cf.AccessFlags()
@@ -80,4 +88,28 @@ func (self *Class) getPackageName() string {
 }
 
 
+func (self *Class) NewObject() *Object {
+	return NewObject(self)
+}
+
+func NewObject(class *Class) *Object {
+	return &Object{
+		class : class,
+		fields: newSlots(class.instanceSlotCount),
+	}
+}
+
+func (self *Class) GetMainMethod() *Method {
+	return self.getStaticMethod("main", "([Ljava/lang/String;)V")
+}
+
+func (self *Class) getStaticMethod(name string, descriptor string) *Method{
+	for _, method := range self.methods {
+		if method.IsStatic() && method.name == name && method.descriptor == descriptor {
+			return method
+		}
+	}
+
+	return nil
+}
 

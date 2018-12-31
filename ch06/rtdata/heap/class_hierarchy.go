@@ -1,7 +1,6 @@
 package heap
 
-// jvms8 6.5.instanceof
-// jvms8 6.5.checkcast
+
 func (self *Class) isAssignableFrom(other *Class) bool {
 	s, t := other, self
 
@@ -9,6 +8,7 @@ func (self *Class) isAssignableFrom(other *Class) bool {
 		return true
 	}
 
+	//s继承t或s实现t => t可以被s赋值
 	if !t.IsInterface() {
 		return s.isSubClassOf(t)
 	} else {

@@ -1,10 +1,15 @@
 package rtdata
 
+import (
+	"gojvm/ch06/rtdata/heap"
+)
+
 type Frame struct {
 	lower        *Frame
 	localVars    LocalVars
 	operandStack *OperandStack
 	thread       *Thread
+	method       *heap.Method
 	nextPc       int
 }
 
@@ -13,11 +18,12 @@ type Frame struct {
 *	maxLocals 最大局部变量数
 *	maxStack 操作数栈最大深度
  */
-func newFrame(thread *Thread, maxLocals, maxStack uint) *Frame {
+func newFrame(thread *Thread, method *heap.Method) *Frame {
 	return &Frame{
 		thread:       thread,
-		localVars:    newLocalVars(maxLocals),
-		operandStack: newOperandStack(maxStack),
+		localVars:    newLocalVars(method.MaxLocals()),
+		operandStack: newOperandStack(method.MaxStack()),
+		method: method,
 	}
 }
 
@@ -39,4 +45,8 @@ func (self *Frame) SetNextPC(pc int) {
 
 func (self *Frame) NextPC() int {
 	return self.nextPc
+}
+
+func (self *Frame) Method() *heap.Method {
+	return self.method
 }

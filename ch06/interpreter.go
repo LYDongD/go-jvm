@@ -2,26 +2,21 @@ package main
 
 import (
 	"fmt"
-	"gojvm/ch06/classfile"
 	"gojvm/ch06/instructions"
 	"gojvm/ch06/instructions/base"
 	"gojvm/ch06/rtdata"
+	"gojvm/ch06/rtdata/heap"
 )
 
 
-func interpret(methodInfo *classfile.MemberInfo) {
-	//get bytecode and operate env
-	codeAtrr := methodInfo.CodeAttribute()
-	maxLocals := codeAtrr.MaxLocals()
-	maxStack := codeAtrr.MaxStack()
-	bytecode := codeAtrr.Code()
+func interpret(method *heap.Method) {
 
 	//thread -> frame -> execute bytecode in frame
 	thread := rtdata.NewThread()
-	frame := thread.NewFrame(maxLocals, maxStack)
+	frame := thread.NewFrame(method)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, bytecode)
+	loop(thread, method.Code())
 }
 
 //handle panic -> recover
@@ -49,7 +44,7 @@ func loop(thread *rtdata.Thread, bytecode []byte) {
 		frame.SetNextPC(reader.PC())
 
 		//execute
-		fmt.Printf("pc:%2d inst:%T %v\n", pc, inst, inst)
+		fmt.Printf("pc:%2d instruction:%T %v\n", pc, inst, inst)
 		inst.Execute(frame)
 	}
 }
