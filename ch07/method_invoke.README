@@ -1,0 +1,20 @@
+### 方法调用
+
+#### 目标
+
+实现4个指令
+
+静态绑定:
+* invokestatic  //静态方法调用
+* invokespecial // 构造方法，private方法和super方法
+
+动态绑定:
+* invokeinterface //接口方法
+* invokevirtual //public方法
+
+
+
+#### 流程
+
+符号引用解析 -> 查找目标方法 -> 创建栈帧/入栈 -> 传递参数 -> 调用方法 -> 返回
+

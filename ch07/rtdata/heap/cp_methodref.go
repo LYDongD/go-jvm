@@ -53,7 +53,7 @@ func lookupMethod(class *Class, name, descriptor string) *Method {
 
 	if method == nil {
 		//在类接口中寻找
-		method = lookupMethodInInterfaces(class.interfaces, name, descriptor)
+		method = lookupInInterfaces(class.interfaces, name, descriptor)
 	}
 
 	return method
