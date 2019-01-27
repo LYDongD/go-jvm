@@ -50,6 +50,10 @@ func (self *Method) ArgSlotCount() uint {
 	return self.argSlotCount
 }
 
+func (self *Method) IsAbstract() bool {
+	return 0 != self.accessFlags&ACC_ABSTRACT
+}
+
 func (self *Method) calArgSlotCount() uint {
 	parsedDescriptor := parseMethodDescriptor(self.descriptor)
 	for _, parameterType := range parsedDescriptor.parameterTypes {
@@ -66,3 +70,4 @@ func (self *Method) calArgSlotCount() uint {
 		self.argSlotCount++
 	}
 }
+

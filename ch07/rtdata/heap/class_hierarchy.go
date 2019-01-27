@@ -47,3 +47,16 @@ func (self *Class) isSubInterfaceOf(iface *Class) bool {
 	}
 	return false
 }
+
+func (self *Class) IsSubClassOf(other *Class) bool {
+	for c := self.superClass; c != nil; c = c.superClass {
+		if c == other {
+			return true
+		}
+	}
+	return false
+}
+
+func (self *Class) IsSuperClassOf(other *Class) bool {
+	return other.IsSubClassOf(self)
+}

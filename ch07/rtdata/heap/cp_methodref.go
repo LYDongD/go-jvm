@@ -44,6 +44,8 @@ func (self *MethodRef) resolveMethodRef() *Method {
 	}
 
 	self.method = method
+
+	return method
 }
 
 func lookupMethod(class *Class, name, descriptor string) *Method {

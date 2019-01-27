@@ -66,6 +66,20 @@ func (self *Class) IsEnum() bool {
 	return 0 != self.accessFlags & ACC_ENUM
 }
 
+func (self *Class) IsSuper() bool {
+	return 0 != self.accessFlags&ACC_SUPER
+}
+
+func (self *Class) GetPackageName() string {
+	if i := strings.LastIndex(self.name, "/"); i >= 0 {
+		return self.name[:i]
+	}
+	return ""
+}
+
+func (self *Class) SuperClass() *Class {
+	return self.superClass
+}
 
 func (self *Class) IsSynthetic() bool {
 	return 0 != self.accessFlags & ACC_SYNTHETIC
