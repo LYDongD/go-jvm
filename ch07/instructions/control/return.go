@@ -5,71 +5,65 @@ import (
 	"gojvm/ch07/rtdata"
 )
 
-type RETURN struct {
-	base.NoOperandsInstruction
-}
-
-type IRETURN struct {
-	base.NoOperandsInstruction
-}
-type ARETURN struct {
-	base.NoOperandsInstruction
-}
-
-type LRETURN struct {
-	base.NoOperandsInstruction
-}
-
-type DRETURN struct {
-	base.NoOperandsInstruction
-}
-
-type FRETURN struct {
-	base.NoOperandsInstruction
-}
+// Return void from method
+type RETURN struct{ base.NoOperandsInstruction }
 
 func (self *RETURN) Execute(frame *rtdata.Frame) {
 	frame.Thread().PopFrame()
 }
 
-func (self *IRETURN) Execute(frame rtdata.Frame) {
+// Return reference from method
+type ARETURN struct{ base.NoOperandsInstruction }
+
+func (self *ARETURN) Execute(frame *rtdata.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	retVal := currentFrame.OperandStack().PopInt()
-	invokerFrame.OperandStack().PushInt(retVal)
+	ref := currentFrame.OperandStack().PopRef()
+	invokerFrame.OperandStack().PushRef(ref)
+}
+
+// Return double from method
+type DRETURN struct{ base.NoOperandsInstruction }
+
+func (self *DRETURN) Execute(frame *rtdata.Frame) {
+	thread := frame.Thread()
+	currentFrame := thread.PopFrame()
+	invokerFrame := thread.TopFrame()
+	val := currentFrame.OperandStack().PopDouble()
+	invokerFrame.OperandStack().PushDouble(val)
 }
 
 
-func (self *LRETURN) Execute(frame rtdata.Frame) {
+// Return float from method
+type FRETURN struct{ base.NoOperandsInstruction }
+
+func (self *FRETURN) Execute(frame *rtdata.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	retVal := currentFrame.OperandStack().PopLong()
-	invokerFrame.OperandStack().PushLong(retVal)
+	val := currentFrame.OperandStack().PopFloat()
+	invokerFrame.OperandStack().PushFloat(val)
 }
 
+// Return int from method
+type IRETURN struct{ base.NoOperandsInstruction }
 
-func (self *ARETURN) Execute(frame rtdata.Frame) {
+func (self *IRETURN) Execute(frame *rtdata.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	retVal := currentFrame.OperandStack().PopRef()
-	invokerFrame.OperandStack().PushRef(retVal)
+	val := currentFrame.OperandStack().PopInt()
+	invokerFrame.OperandStack().PushInt(val)
 }
 
-func (self *DRETURN) Execute(frame rtdata.Frame) {
-	thread := frame.Thread()
-	currentFrame := thread.PopFrame()
-	invokerFrame := thread.TopFrame()
-	retVal := currentFrame.OperandStack().PopDouble()
-	invokerFrame.OperandStack().PushDouble(retVal)
-}
+// Return double from method
+type LRETURN struct{ base.NoOperandsInstruction }
 
-func (self *FRETURN) Execute(frame rtdata.Frame) {
+func (self *LRETURN) Execute(frame *rtdata.Frame) {
 	thread := frame.Thread()
 	currentFrame := thread.PopFrame()
 	invokerFrame := thread.TopFrame()
-	retVal := currentFrame.OperandStack().PopFloat()
-	invokerFrame.OperandStack().PushFloat(retVal)
+	val := currentFrame.OperandStack().PopLong()
+	invokerFrame.OperandStack().PushLong(val)
 }

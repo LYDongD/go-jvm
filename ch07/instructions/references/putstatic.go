@@ -19,6 +19,12 @@ func (self *PUT_STATIC) Execute(frame *rtdata.Frame) {
 	field := fieldRef.ResolvedField()
 	class := field.Class()
 
+	if !class.InitStarted() {
+		frame.RevertNextPC()
+		base.InitClass(frame.Thread(), class)
+		return
+	}
+
 	if !field.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}

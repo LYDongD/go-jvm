@@ -3,6 +3,7 @@ package base
 import (
 	"gojvm/ch07/rtdata"
 	"gojvm/ch07/rtdata/heap"
+	"fmt"
 )
 
 //方法调用，从当前主类栈帧传递参数到新的栈帧
@@ -23,6 +24,15 @@ func InvokeMethod(invokerFrame *rtdata.Frame, method *heap.Method) {
 			slot := invokerFrame.OperandStack().PopSlot()
 			//将参数写入新栈帧的局部变量表
 			newFrame.LocalVars().SetSlot(uint(i), slot)
+		}
+	}
+
+	if method.IsNative() {
+		if method.Name() == "registerNatives" {
+			thread.PopFrame()
+		}else {
+			panic(fmt.Sprint("native method: %v.%v%v \n",
+				method.Class().Name(), method.Name(), method.Descriptor()))
 		}
 	}
 }

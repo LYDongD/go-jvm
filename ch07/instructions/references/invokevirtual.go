@@ -7,6 +7,7 @@ import (
 	"fmt"
 )
 
+//虚方法调用，适合非接口类的非私实例方法
 type INVOKE_VIRTUAL struct {
 	base.Index16Instruction
 }

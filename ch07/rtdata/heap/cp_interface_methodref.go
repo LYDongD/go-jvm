@@ -59,6 +59,6 @@ func lookupInterfaceMethod(iface *Class, name, descriptor string) *Method {
 	}
 
 	//如果当前调用接口类找不到，则递归地向上查找
-	lookupInInterfaces(iface.interfaces, name, descriptor)
+	return lookupInInterfaces(iface.interfaces, name, descriptor)
 }
 

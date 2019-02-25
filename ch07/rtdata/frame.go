@@ -50,3 +50,7 @@ func (self *Frame) NextPC() int {
 func (self *Frame) Method() *heap.Method {
 	return self.method
 }
+
+func (self *Frame) RevertNextPC() {
+	self.nextPc = self.thread.pc
+}

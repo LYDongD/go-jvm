@@ -1,6 +1,8 @@
 package heap
 
-import "strings"
+import (
+	"strings"
+)
 
 type MethodDescriptorParser struct {
 	raw string
@@ -17,6 +19,7 @@ func (self *MethodDescriptorParser) parse(descriptor string) *MethodDescriptor {
 	self.raw = descriptor
 	self.parsed = &MethodDescriptor{}
 	self.startParams()
+	self.parseParamTypes()
 	self.endParams()
 	self.parseReturnType()
 	self.finish()
@@ -29,7 +32,8 @@ func (self *MethodDescriptorParser) startParams() {
 	}
 }
 func (self *MethodDescriptorParser) endParams() {
-	if self.readUint8() != ')' {
+	char := self.readUint8()
+	if char != ')' {
 		self.causePanic()
 	}
 }

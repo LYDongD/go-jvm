@@ -9,12 +9,14 @@ import (
 
 type ClassLoader struct {
 	cp *classpath.Classpath
+	verboseFlag bool
 	classMap map[string]*Class  //cache loaded classes, 可以看成是方法区的具体实现
 }
 
-func NewClassLoader(cp *classpath.Classpath) *ClassLoader {
+func NewClassLoader(cp *classpath.Classpath, verboseFlag bool) *ClassLoader {
 	return &ClassLoader{
 		cp: cp,
+		verboseFlag:verboseFlag,
 		classMap: make(map[string] *Class),
 	}
 }
@@ -37,7 +39,10 @@ func (self *ClassLoader) loadNonArrayClass(className string) *Class {
 	class := self.defineClass(data)
 	//链接
 	link(class)
-	fmt.Printf("load %s from %s\n", className, entry)
+	if self.verboseFlag {
+		fmt.Printf("load %s from %s\n", className, entry)
+	}
+
 	return class
 }
 

@@ -19,10 +19,23 @@ type Class struct {
 	instanceSlotCount uint //实例变量占用空间
 	staticSlotCount uint //类变量占用空间
 	staticVars Slots //静态变量表
+	initStarted bool //类是否已经初始化
 }
 
 func (self *Class) ConstantPool() *ConstantPool {
 	return self.constantPool
+}
+
+func (self *Class) Name() string {
+	return self.name
+}
+
+func (self *Class) InitStarted() bool {
+	return self.initStarted
+}
+
+func (self *Class) StartInit() {
+	self.initStarted = true
 }
 
 func (self *Class) StaticVars() Slots {
@@ -125,5 +138,10 @@ func (self *Class) getStaticMethod(name string, descriptor string) *Method{
 	}
 
 	return nil
+}
+
+//获取初始化方法
+func (self *Class) GetClInitMethod() *Method {
+	return self.getStaticMethod("<cinit>", "()V")
 }
 

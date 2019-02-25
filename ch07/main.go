@@ -21,11 +21,11 @@ func main() {
 func StartJVM(cmd *Cmd) {
 	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
 	className := strings.Replace(cmd.class, ".", "/", -1)
-	classLoader := heap.NewClassLoader(cp)
+	classLoader := heap.NewClassLoader(cp, cmd.verboseClassFlag)
 	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetMainMethod()
 	if mainMethod != nil {
-		interpret(mainMethod)
+		interpret(mainMethod, cmd.verboseInstFlag)
 	}else {
 		fmt.Printf("main method not found in class :%s\n", className)
 	}
