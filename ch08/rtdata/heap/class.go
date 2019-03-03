@@ -159,3 +159,33 @@ func (self *Class) ArrayClass() *Class {
 func getArrayClassName(className string) string{
 	return "[" + toDescriptor(className)
 }
+
+//返回数组元素的类对象，数组类和数组元素类名有映射关系，可以相互推测
+func (self *Class) ComponentClass() *Class {
+	componentClassName := getComponentClassName(self.name)
+	return self.loader.LoadClass(componentClassName)
+}
+
+//获取数组元素类名
+func getComponentClassName(className string) string {
+	if className[0] == '['{
+		//类型描述符不是类名，需要再做一层映射
+		componentTypeDescriptor := className[1:]
+		return toClassName(componentTypeDescriptor)
+	}
+	panic("not array: " + className)
+}
+
+
+func (self *Class) isJlObject() bool {
+	return self.name == "java/lang/Object"
+}
+
+func (self *Class) isJlCloneable() bool {
+	return self.name == "java/lang/Cloneable"
+}
+
+func (self *Class) isJioSerializable() bool {
+	return self.name == "java/io/Serializable"
+}
+

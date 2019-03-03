@@ -27,3 +27,25 @@ func toDescriptor(className string) string {
 
 	return "L" + className + ";"
 }
+
+//获取描述符对应的类名
+func toClassName(descriptor string) string {
+	//数组的描述符和类名是一致的
+	if descriptor[0] == '[' {
+		return descriptor
+	}
+
+	//引用类型描述符，去掉开头的L和末尾的分号
+	if descriptor[0] == 'L' {
+		return descriptor[1:len(descriptor) - 1]
+	}
+
+	//基本类型描述符
+	for className, d := range primitiveTypes {
+		if d == descriptor {
+			return className
+		}
+	}
+
+	panic("invalid descriptor: " + descriptor)
+}

@@ -1,4 +1,4 @@
-package loads
+package stores
 
 import (
 	"gojvm/ch08/instructions/base"
@@ -6,138 +6,151 @@ import (
 	"gojvm/ch08/rtdata/heap"
 )
 
-//数组取元素指令，针对不同类型元素，一共定义8条指令; 该指令需要2个操作数，即元素索引和数组引用，从运行时操作数栈弹出
+//按索引写入数组元素, 该指令需要三个操作数：需要写入的元素值，索引和数组引用
 
-type AALOAD struct {
-	base.NoOperandsInstruction
+type AASTORE struct {
+	 base.NoOperandsInstruction
 }
 
-func (self *AALOAD) Execute(frame *rtdata.Frame) {
+func (self *AASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := stack.PopRef()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
+
+	//获取底层golang实现的数组
 	refs := arrRef.Refs()
 	checkIndex(len(refs), index)
-	stack.PushRef(refs[index])
+	refs[index] = val
 }
 
-
-type BALOAD struct {
+type BASTORE struct {
 	base.NoOperandsInstruction
 }
 
-func (self *BALOAD) Execute(frame *rtdata.Frame) {
+func (self *BASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := int8(stack.PopInt())
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
+
+	//获取底层golang实现的数组
 	refs := arrRef.Bytes()
 	checkIndex(len(refs), index)
-
-	//todo
-	stack.PushInt(int32(refs[index]))
+	refs[index] = val
 }
 
-type CALOAD struct {
+type CASTORE struct {
 	base.NoOperandsInstruction
 }
 
-
-func (self *CALOAD) Execute(frame *rtdata.Frame) {
+func (self *CASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := uint16(stack.PopInt())
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
+
+	//获取底层golang实现的数组
 	refs := arrRef.Chars()
 	checkIndex(len(refs), index)
-
-	//todo check
-	stack.PushInt(int32(refs[index]))
+	refs[index] = val
 }
 
-type DALOAD struct {
+type DASTORE struct {
 	base.NoOperandsInstruction
 }
 
-func (self *DALOAD) Execute(frame *rtdata.Frame) {
+func (self *DASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := stack.PopDouble()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
+
+	//获取底层golang实现的数组
 	refs := arrRef.Doubles()
 	checkIndex(len(refs), index)
-	stack.PushDouble(refs[index])
+	refs[index] = val
 }
 
-type FALOAD struct {
+type IASTORE struct {
 	base.NoOperandsInstruction
 }
 
-
-func (self *FALOAD) Execute(frame *rtdata.Frame) {
+func (self *IASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := stack.PopInt()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
-	refs := arrRef.Floats32()
-	checkIndex(len(refs), index)
-	stack.PushFloat(refs[index])
+
+	//获取底层golang实现的数组
+	ints := arrRef.Ints()
+	checkIndex(len(ints), index)
+	ints[index] = int32(val)
 }
 
-
-type IALOAD struct {
+type LASTORE struct {
 	base.NoOperandsInstruction
 }
 
-func (self *IALOAD) Execute(frame *rtdata.Frame) {
+func (self *LASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := stack.PopLong()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
-	refs := arrRef.Ints()
-	checkIndex(len(refs), index)
-	stack.PushInt(refs[index])
-}
 
-type LALOAD struct {
-	base.NoOperandsInstruction
-}
-
-func (self *LALOAD) Execute(frame *rtdata.Frame) {
-	stack := frame.OperandStack()
-	index := stack.PopInt()
-	arrRef := stack.PopRef()
-	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
+	//获取底层golang实现的数组
 	refs := arrRef.Longs()
 	checkIndex(len(refs), index)
-	stack.PushLong(refs[index])
+	refs[index] = val
 }
 
-type SALOAD struct {
+type FASTORE struct {
 	base.NoOperandsInstruction
 }
 
-func (self *SALOAD) Execute(frame *rtdata.Frame) {
+func (self *FASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
 	stack := frame.OperandStack()
+	val := stack.PopFloat()
 	index := stack.PopInt()
 	arrRef := stack.PopRef()
 	checkNotNil(arrRef)
-	//返回真正持有的golang引用数组
-	refs := arrRef.Shorts()
-	checkIndex(len(refs), index)
 
-	//TODO CHECK
-	stack.PushInt(int32(refs[index]))
+	//获取底层golang实现的数组
+	refs := arrRef.Floats32()
+	checkIndex(len(refs), index)
+	refs[index] = val
 }
 
+type SASTORE struct {
+	base.NoOperandsInstruction
+}
+
+func (self *SASTORE) Execute(frame *rtdata.Frame) {
+	//获取操作数
+	stack := frame.OperandStack()
+	val := int16(stack.PopInt())
+	index := stack.PopInt()
+	arrRef := stack.PopRef()
+	checkNotNil(arrRef)
+
+	//获取底层golang实现的数组
+	refs := arrRef.Shorts()
+	checkIndex(len(refs), index)
+	refs[index] = val
+}
 
 func checkNotNil(ref *heap.Object) {
 	if ref == nil {
